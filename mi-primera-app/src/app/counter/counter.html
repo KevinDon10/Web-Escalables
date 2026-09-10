@@ -1,0 +1,26 @@
+<h1 [class.valorAlto]="countSignal() > 50" [class.valorBajo]="countSignal() < 50">Count Component</h1>
+<!-- <h1 [ngClass]="{'valorAlto' : countSignal() > 50, 'valorBajo' : countSignal() < 50, 'valorMedio' : countSignal() == 50 }">Count Component</h1> -->
+<!-- <h1 [style.color]="'red'">Count Component</h1> -->
+
+<p>Contador con señal: {{countSignal()}}</p>
+
+<button (click)="increaseBy(-1)">-1</button>
+<button (click)="increaseBy(1)">+1</button>
+
+<p>Contador doble: {{doubleCountSignal()}}</p>
+
+<!-- <p *ngIf="countSignal() > 50">El valor es mayor de 50</p> -->
+
+@if (countSignal() > 70) {
+    <p>El valor es mayor de 70</p>
+}@else if (countSignal() > 50) {
+    <p>El valor es mayor de 50</p>
+}@else {
+   <p>El valor es inválido</p>
+}
+
+<ul>
+    @for (nombre of nombres(); track $index) {
+        <li>{{nombre}}</li>
+    }
+</ul>
