@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, input, signal, WritableSignal } from '@angular/core';
+import { User } from "../../interfaces/user.interface";
 
 @Component({
   selector: 'app-user-card',
@@ -6,4 +7,14 @@ import { Component } from '@angular/core';
   templateUrl: './user-card.html',
   styleUrl: './user-card.css',
 })
-export class UserCard {}
+export class UserCard {
+  // user: WritableSignal<User> = signal({
+  //   id: 1,
+  //   name: "Juan Lopez", 
+  //   username: "LeGra",
+  //   email: 'legra@gmail.com',
+  //   image: "https://img.magnific.com/foto-gratis/joven-hombre-barbudo-camisa-rayas_273609-5677.jpg?semt=ais_hybrid&w=740&q=80%22"
+  // })
+
+  user = input.required<User>();
+}
