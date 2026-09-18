@@ -1,4 +1,4 @@
-import { Component, signal, WritableSignal } from '@angular/core';
+import { Component, computed, signal, WritableSignal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { User } from './interfaces/user.interface';
 import { UserCard } from "./components/user-card/user-card";
@@ -65,6 +65,8 @@ export class App {
   }
   ])
 
+  readonly totalUsers = computed(() => this.users().length);
+
   orderById(): void {
     this.users.update(users => users.sort((a, b) => a.id - b.id));
   }
@@ -75,5 +77,9 @@ export class App {
 
   reverse(): void {
     this.users.update(users => users.reverse());
-  } 
+  }
+
+  removeUser(id: number): void {
+    this.users.update(users => users.filter(user => user.id !== id));
+  }
 }

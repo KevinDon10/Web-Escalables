@@ -1,4 +1,4 @@
-import { Component, input, signal, WritableSignal } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { User } from "../../interfaces/user.interface";
 
 @Component({
@@ -17,4 +17,9 @@ export class UserCard {
   // })
 
   user = input.required<User>();
+  deleteUser = output<number>();
+
+  removeUser(): void {
+    this.deleteUser.emit(this.user().id);
+  }
 }

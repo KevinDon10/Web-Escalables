@@ -78,3 +78,17 @@
 .user-email {
     color: #4b5671;
 }
+
+.delete-button {
+    margin-top: 18px;
+    padding: 8px 14px;
+    border: 0;
+    border-radius: 8px;
+    background: #d9534f;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background: #b52b27;
+}
