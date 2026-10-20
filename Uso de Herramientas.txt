@@ -1,0 +1,10 @@
+Para este ejercicio, utilice la herramienta de Claude Code para realizar la parte de la investigación de la información de:
+
+1._Definir un output tipado con un valor (por ejemplo, pasar un number o string en lugar de void).
+2._Emitir el valor desde el hijo: Pasar el dato deseado dentro del método .emit(...).
+3._Recibir el valor en el template del padre: Usar la variable especial $event para capturar el dato enviado por el hijo al llamar a la función en el HTML padre.
+
+pidiendo que me explicara su funcionamiento y los parámetros necesarios para poderlas implementar en el ejercio.
+
+
+De igual manera lo utilice para darle un estilo más adecuado al botón de eliminar dentro de las cards, ya que tenía los botones sencillos y no estaban centrados dentro de las cards, esto fue mayormente por cuestiones de tiempo.
