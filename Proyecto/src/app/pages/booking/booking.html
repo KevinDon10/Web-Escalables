@@ -1,0 +1,61 @@
+<main class="page-shell">
+  <section class="page-heading">
+    <span class="eyebrow">Reserva tu momento</span>
+    <h1>Agenda tu cita <em>en pocos pasos.</em></h1>
+    <p>Elige tu servicio, fecha y horario. Nosotros nos encargamos del resto.</p>
+  </section>
+  @if (submitted) {
+    <section class="success-card">
+      <span class="success-icon">✓</span>
+      <span class="eyebrow">Reserva lista</span>
+      <h2>¡Te esperamos!</h2>
+      <p>Tu cita de {{ selectedService?.nombre }} quedó agendada para el {{ fecha }} a las {{ hora }}.</p>
+      <a class="button button-gold" routerLink="/mis-citas">Ver mis citas <span>→</span></a>
+    </section>
+  } @else {
+    <div class="booking-grid">
+      <form class="panel booking-form" (ngSubmit)="submit()">
+        <div class="panel-heading"><span class="step">01</span><div><h2>Detalles de la cita</h2><p>Cuéntanos qué tienes en mente.</p></div></div>
+        <label>Servicio
+          <select name="servicio" [(ngModel)]="selectedServiceId" required>
+            @for (service of data.services; track service.id) {
+              <option [ngValue]="service.id">{{ service.nombre }} · {{ service.precio | currency:'MXN':'symbol-narrow':'1.0-0' }}</option>
+            }
+          </select>
+        </label>
+        <label>Barbero
+          <select name="barbero" [(ngModel)]="selectedBarberId" required>
+            @for (barber of data.barbers; track barber.id) {
+              <option [ngValue]="barber.id">{{ barber.nombre }} · {{ barber.especialidad }}</option>
+            }
+          </select>
+        </label>
+        <div class="form-row">
+          <label>Fecha<input name="fecha" type="date" [min]="minDate" [(ngModel)]="fecha" required></label>
+          <label>Horario
+            <select name="hora" [(ngModel)]="hora" required>
+              <option value="" disabled>Selecciona hora</option>
+              @for (slot of timeSlots; track slot) { <option [value]="slot">{{ slot }}</option> }
+            </select>
+          </label>
+        </div>
+        <label>Notas adicionales <span class="optional">(opcional)</span>
+          <textarea name="notas" [(ngModel)]="notas" maxlength="500" rows="4" placeholder="Preferencias de estilo, observaciones..."></textarea>
+        </label>
+        <button class="button button-gold confirm-button" type="submit">Confirmar cita <span>→</span></button>
+      </form>
+      <aside class="booking-aside">
+        <div class="panel summary">
+          <span class="eyebrow">Tu selección</span><h2>Resumen</h2>
+          @if (selectedService; as service) {
+            <div class="summary-service"><img [src]="'/img/' + service.imagen" [alt]="service.nombre"><div><strong>{{ service.nombre }}</strong><span>{{ service.duracion }} minutos</span></div></div>
+            <div class="summary-line"><span>Profesional</span><strong>{{ selectedBarber?.nombre }}</strong></div>
+            <div class="summary-line"><span>Fecha y hora</span><strong>{{ fecha || 'Por confirmar' }} {{ hora }}</strong></div>
+            <div class="summary-total"><span>Total estimado</span><strong>{{ service.precio | currency:'MXN':'symbol-narrow':'1.0-0' }}</strong></div>
+          }
+        </div>
+        <div class="aside-note"><span>✦</span><p>Te recomendamos llegar 5 minutos antes para disfrutar la experiencia completa.</p></div>
+      </aside>
+    </div>
+  }
+</main>

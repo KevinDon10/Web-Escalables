@@ -1,0 +1,35 @@
+<main class="auth-page">
+  <div class="auth-image">
+    <div class="image-caption"><span>BARBER KEV'S</span><p>El cuidado personal<br>también es un ritual.</p></div>
+  </div>
+  <section class="auth-panel">
+    <a class="back-link" routerLink="/">← Volver al inicio</a>
+    <div class="auth-content">
+      <span class="eyebrow">{{ mode() === 'login' ? 'Qué gusto tenerte de vuelta' : 'Tu estilo empieza aquí' }}</span>
+      <h1>{{ mode() === 'login' ? 'Bienvenido.' : 'Crea tu cuenta.' }}</h1>
+      <p class="auth-subtitle">{{ mode() === 'login' ? 'Ingresa a tu cuenta para gestionar tus próximas visitas.' : 'Regístrate para reservar y llevar el control de tus citas.' }}</p>
+      <form (ngSubmit)="submit()">
+        @if (mode() === 'register') {
+          <div class="name-fields">
+            <label>Nombre<input name="nombre" [(ngModel)]="nombre" autocomplete="given-name" required></label>
+            <label>Apellidos<input name="apellidos" [(ngModel)]="apellidos" autocomplete="family-name" required></label>
+          </div>
+        }
+        <label>Correo electrónico
+          <input name="correo" type="email" [(ngModel)]="correo" autocomplete="email" placeholder="nombre@correo.com" required>
+        </label>
+        <label>Contraseña
+          <input name="password" type="password" [(ngModel)]="password" [autocomplete]="mode() === 'login' ? 'current-password' : 'new-password'" placeholder="Mínimo 8 caracteres" minlength="8" required>
+        </label>
+        @if (mode() === 'login') {
+          <a class="forgot-link" routerLink="/login">¿Olvidaste tu contraseña?</a>
+        }
+        <button class="button button-gold submit-button" type="submit">{{ mode() === 'login' ? 'Iniciar sesión' : 'Crear cuenta' }} <span>→</span></button>
+      </form>
+      <p class="switch-auth">
+        {{ mode() === 'login' ? '¿Aún no tienes cuenta?' : '¿Ya tienes una cuenta?' }}
+        <a [routerLink]="mode() === 'login' ? '/registro' : '/login'">{{ mode() === 'login' ? 'Regístrate' : 'Inicia sesión' }}</a>
+      </p>
+    </div>
+  </section>
+</main>

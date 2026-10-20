@@ -1,0 +1,61 @@
+.site-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 20;
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 12px clamp(20px, 5vw, 72px);
+  background: rgba(10, 10, 10, .86);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(18px);
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  color: var(--gold);
+  font: 700 1.8rem/1 'Cormorant Garamond', serif;
+  white-space: nowrap;
+}
+.brand-mark { font: 1.35rem/1 sans-serif; }
+.main-nav, .header-actions { display: flex; align-items: center; gap: 25px; }
+.main-nav a, .login-link { color: #d3cec4; font-size: .87rem; transition: color .2s ease; }
+.main-nav a:hover, .main-nav a.active, .login-link:hover { color: var(--gold); }
+.welcome { color: var(--muted); font-size: .85rem; }
+.menu-toggle { display: none; }
+@media (max-width: 900px) {
+  .site-header { gap: 12px; }
+  .main-nav { gap: 14px; }
+  .main-nav a { font-size: .78rem; }
+  .welcome { display: none; }
+}
+@media (max-width: 700px) {
+  .site-header { min-height: 70px; }
+  .brand { font-size: 1.55rem; }
+  .menu-toggle {
+    display: block;
+    margin-left: auto;
+    border: 0;
+    background: transparent;
+    color: var(--cream);
+    font-size: 1.4rem;
+  }
+  .main-nav {
+    position: absolute;
+    top: 69px;
+    left: 0;
+    right: 0;
+    display: none;
+    align-items: stretch;
+    padding: 12px 24px 20px;
+    background: #111;
+    border-bottom: 1px solid var(--line);
+  }
+  .main-nav.open { display: flex; flex-direction: column; gap: 17px; }
+  .main-nav a { font-size: .9rem; }
+  .header-actions { gap: 0; }
+  .login-link { display: none; }
+}

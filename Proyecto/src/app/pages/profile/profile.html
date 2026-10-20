@@ -1,0 +1,21 @@
+<main class="profile-page">
+  <section class="profile-card">
+    <a class="brand" routerLink="/">✂ <span>Barber Kev's</span></a>
+    <header><span class="eyebrow">Tu cuenta</span><h1>Mi perfil.</h1><p>Actualiza tu información personal.</p></header>
+    @if (notice) { <p class="notice" role="status">{{ notice }}</p> }
+    <form (ngSubmit)="save()">
+      <div class="form-grid">
+        <label>Nombre<input name="nombre" [(ngModel)]="profile.nombre" required></label>
+        <label>Apellidos<input name="apellidos" [(ngModel)]="profile.apellidos" required></label>
+      </div>
+      <label>Correo electrónico<input name="correo" type="email" [ngModel]="profile.correo" disabled></label>
+      <label>Teléfono<input name="telefono" type="tel" [(ngModel)]="profile.telefono" placeholder="Tu teléfono"></label>
+      <div class="password-heading"><span class="eyebrow">Seguridad</span><p>Cambiar contraseña <span>(opcional)</span></p></div>
+      <div class="form-grid">
+        <label>Contraseña actual<input name="currentPassword" type="password" autocomplete="current-password" placeholder="••••••••"></label>
+        <label>Nueva contraseña<input name="newPassword" type="password" autocomplete="new-password" placeholder="Mínimo 8 caracteres"></label>
+      </div>
+      <button class="button button-gold" type="submit">Guardar cambios <span>→</span></button>
+    </form>
+  </section>
+</main>

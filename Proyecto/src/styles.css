@@ -1,0 +1,26 @@
+:root {
+  color-scheme: dark;
+  --bg: #0a0a0a;
+  --panel: #151513;
+  --gold: #d8b13f;
+  --cream: #f7f2e8;
+  --muted: #aaa194;
+  --line: rgba(255, 255, 255, .09);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--cream);
+  font-family: 'Manrope', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+body, button, input, select, textarea { font-family: 'Manrope', sans-serif; }
+button, input, select, textarea { font: inherit; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+::selection { background: rgba(216, 177, 63, .35); }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { border-radius: 8px; background: var(--gold); }

@@ -1,0 +1,34 @@
+<main class="page-shell">
+  <section class="page-heading">
+    <div><span class="eyebrow">Tu agenda personal</span><h1>Mis <em>citas.</em></h1><p>Consulta tus próximas visitas y revisa tu historial.</p></div>
+    <a class="button button-gold" routerLink="/agendar">Agendar otra cita <span>↗</span></a>
+  </section>
+  @if (notice) { <p class="notice" role="status">{{ notice }}</p> }
+  <div class="tabs" role="tablist">
+    <button type="button" [class.selected]="activeTab === 'upcoming'" (click)="activeTab = 'upcoming'">Próximas <span>{{ upcomingAppointments.length }}</span></button>
+    <button type="button" [class.selected]="activeTab === 'history'" (click)="activeTab = 'history'">Historial <span>{{ pastAppointments.length }}</span></button>
+  </div>
+  <section class="appointment-list">
+    @if (activeTab === 'upcoming') {
+      @for (appointment of upcomingAppointments; track appointment.id) {
+        <article class="appointment-card">
+          <div class="date-block"><span>{{ appointment.fecha | dateDay }}</span><strong>{{ appointment.fecha | dateMonth }}</strong></div>
+          <div class="appointment-main"><span class="eyebrow">{{ appointment.hora }} h · {{ appointment.estado }}</span><h2>{{ appointment.servicio }}</h2><p>Con {{ appointment.barbero }}</p></div>
+          <div class="appointment-price"><strong>{{ appointment.precio | currency:'MXN':'symbol-narrow':'1.0-0' }}</strong><button type="button" (click)="cancel(appointment.id)">Cancelar cita</button></div>
+        </article>
+      } @empty {
+        <div class="empty-state"><span>✦</span><h2>No tienes citas próximas</h2><p>Agenda tu siguiente visita y deja tu estilo en nuestras manos.</p><a class="text-link" routerLink="/agendar">Reservar ahora →</a></div>
+      }
+    } @else {
+      @for (appointment of pastAppointments; track appointment.id) {
+        <article class="appointment-card past">
+          <div class="date-block"><span>{{ appointment.fecha | dateDay }}</span><strong>{{ appointment.fecha | dateMonth }}</strong></div>
+          <div class="appointment-main"><span class="eyebrow">{{ appointment.hora }} h · {{ appointment.estado }}</span><h2>{{ appointment.servicio }}</h2><p>Con {{ appointment.barbero }}</p></div>
+          <div class="appointment-price"><strong>{{ appointment.precio | currency:'MXN':'symbol-narrow':'1.0-0' }}</strong><span class="status">{{ appointment.estado }}</span></div>
+        </article>
+      } @empty {
+        <div class="empty-state"><h2>Aún no hay historial</h2><p>Después de tu primera visita, encontrarás aquí tus citas anteriores.</p></div>
+      }
+    }
+  </section>
+</main>

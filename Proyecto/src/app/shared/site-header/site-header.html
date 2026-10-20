@@ -1,0 +1,28 @@
+<header class="site-header">
+  <a class="brand" routerLink="/" aria-label="Barber Kev's, inicio">
+    <span class="brand-mark">✂</span>
+    <span>Barber Kev's</span>
+  </a>
+  <button class="menu-toggle" type="button" aria-label="Abrir menú" (click)="menuOpen = !menuOpen">☰</button>
+  <nav class="main-nav" [class.open]="menuOpen" aria-label="Navegación principal">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="menuOpen = false">Inicio</a>
+    <a routerLink="/" fragment="servicios" (click)="menuOpen = false">Servicios</a>
+    <a routerLink="/agendar" routerLinkActive="active" (click)="menuOpen = false">Agendar cita</a>
+    @if (auth.currentUser()) {
+      <a routerLink="/mis-citas" routerLinkActive="active" (click)="menuOpen = false">Mis citas</a>
+      <a routerLink="/perfil" routerLinkActive="active" (click)="menuOpen = false">Mi perfil</a>
+      @if (auth.currentUser()?.role === 'admin') {
+        <a routerLink="/admin" routerLinkActive="active" (click)="menuOpen = false">Administración</a>
+      }
+    }
+  </nav>
+  <div class="header-actions">
+    @if (auth.currentUser(); as user) {
+      <span class="welcome">Hola, {{ user.nombre }}</span>
+      <button class="button button-gold button-small" type="button" (click)="logout()">Salir</button>
+    } @else {
+      <a class="login-link" routerLink="/login">Iniciar sesión</a>
+      <a class="button button-gold button-small" routerLink="/registro">Crear cuenta</a>
+    }
+  </div>
+</header>

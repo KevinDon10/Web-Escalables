@@ -1,0 +1,17 @@
+<article class="service-card">
+  <div class="service-image">
+    <img [src]="'/img/' + service.imagen" [alt]="service.nombre" loading="lazy">
+    <span class="category">{{ service.categoria }}</span>
+  </div>
+  <div class="service-copy">
+    <div class="service-heading">
+      <h3>{{ service.nombre }}</h3>
+      <span class="price">{{ service.precio | currency:'MXN':'symbol-narrow':'1.0-0' }}</span>
+    </div>
+    <p>{{ service.descripcion }}</p>
+    <div class="service-footer">
+      <span>{{ service.duracion }} min</span>
+      <a routerLink="/agendar">Reservar <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</article>

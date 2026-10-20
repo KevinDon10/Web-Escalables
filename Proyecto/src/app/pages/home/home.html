@@ -1,0 +1,63 @@
+<main>
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="eyebrow"><span class="eyebrow-line"></span> Barbería premium · Desde 2016</span>
+      <h1>El arte del<br><em>estilo masculino.</em></h1>
+      <p>Tradición, detalle y estilo moderno en una experiencia pensada para que cada visita se convierta en tu mejor presentación.</p>
+      <div class="hero-actions">
+        <a class="button button-gold" routerLink="/agendar">Agendar cita <span>↗</span></a>
+        <a class="button button-outline" routerLink="/" fragment="servicios">Explorar servicios</a>
+      </div>
+      <div class="hero-note"><span class="live-dot"></span> Atención personalizada con cita</div>
+    </div>
+    <div class="hero-side-note">BUEN ESTILO. BUEN OFICIO.</div>
+  </section>
+
+  <section class="intro section-wrap">
+    <div class="intro-copy">
+      <span class="eyebrow">El ritual comienza aquí</span>
+      <h2>Una barbería para quienes valoran <em>verse bien</em> y sentirse mejor.</h2>
+    </div>
+    <div class="stat"><strong>+500</strong><span>clientes satisfechos</span></div>
+    <div class="stat"><strong>06</strong><span>servicios premium</span></div>
+    <div class="stat"><strong>10</strong><span>años de experiencia</span></div>
+  </section>
+
+  <section class="services section-wrap" id="servicios">
+    <div class="section-heading">
+      <div><span class="eyebrow">Hecho a tu medida</span><h2>Elige tu <em>ritual.</em></h2></div>
+      <p>Cada servicio combina técnica, cuidado y atención al detalle. Encuentra el que va contigo.</p>
+    </div>
+    <div class="service-grid">
+      @for (service of data.services; track service.id) {
+        <app-service-card [service]="service" />
+      }
+    </div>
+  </section>
+
+  <section class="experience">
+    <div class="experience-copy">
+      <span class="eyebrow">La experiencia Kev's</span>
+      <h2>El estilo está en<br><em>los detalles.</em></h2>
+      <p>Un espacio sobrio, cálido y pensado para el detalle. Combinamos una estética contemporánea con el oficio tradicional de la barbería.</p>
+      <ul>
+        <li><span>✓</span> Reserva rápida y organizada</li>
+        <li><span>✓</span> Profesionales que entienden tu estilo</li>
+        <li><span>✓</span> Productos seleccionados para ti</li>
+      </ul>
+      <a routerLink="/agendar" class="text-link">Vive la experiencia <span>→</span></a>
+    </div>
+    <div class="gallery">
+      <img src="/img/gallery-1.png" alt="Interior de Barber Kev's" loading="lazy">
+      <img src="/img/gallery-2.png" alt="Espacio de atención de la barbería" loading="lazy">
+      <img src="/img/gallery-3.png" alt="Detalles de nuestro espacio" loading="lazy">
+      <img src="/img/gallery-4.png" alt="Ambiente de Barber Kev's" loading="lazy">
+    </div>
+  </section>
+
+  <section class="booking-cta section-wrap">
+    <div><span class="eyebrow">Tu siguiente visita</span><h2>El mejor momento para renovar tu estilo<br><em>es ahora.</em></h2></div>
+    <a class="button button-gold" routerLink="/agendar">Reserva tu lugar <span>↗</span></a>
+  </section>
+</main>
