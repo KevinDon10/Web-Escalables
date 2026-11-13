@@ -47,6 +47,40 @@ td small { display: block; max-width: 280px; overflow: hidden; margin-top: 4px; 
 .person-cell img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
 .admin-notice { padding: 11px 13px; border: 1px solid rgba(216,177,63,.25); border-radius: 4px; color: var(--gold); font-size: .73rem; }
 .demo-footer { margin-top: 22px; color: #777166; font-size: .62rem; text-align: right; }
+.admin-error { margin: 0 0 16px; padding: 11px 14px; border: 1px solid #a34a3c; border-radius: 4px; background: #281714; color: #f0b3a9; font-size: .75rem; }
+.admin-loading { padding: 30px 0; color: var(--muted); font-size: .8rem; }
+.empty-row { padding: 24px; color: var(--muted); text-align: center; }
+.status.inactive { background: rgba(180, 90, 75, .12); color: #d79a8f; }
+.row-actions { display: flex; align-items: center; gap: 7px; }
+.row-action.danger { color: #d78c7d; }
+.status-select { padding: 6px 8px; border: 1px solid var(--line); border-radius: 4px; background: #111; color: var(--cream); font-size: .66rem; }
+.admin-form { display: grid; gap: 16px; padding: 20px; border-bottom: 1px solid var(--line); background: rgba(0,0,0,.12); }
+.admin-form h2, .admin-form h3 { margin: 0; font: 600 1.4rem 'Cormorant Garamond', serif; }
+.admin-form > p, .blocked-editor > p { margin: -8px 0 0; color: var(--muted); font-size: .69rem; line-height: 1.6; }
+.admin-form label { display: grid; gap: 7px; color: #c9c1b4; font-size: .68rem; }
+.admin-form input:not([type="checkbox"]), .admin-form select, .admin-form textarea { width: 100%; min-height: 38px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 4px; background: #10100f; color: var(--cream); outline: none; }
+.admin-form input:focus, .admin-form select:focus, .admin-form textarea:focus { border-color: var(--gold); }
+.admin-form textarea { resize: vertical; }
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
+.admin-form .checkbox-label { display: flex; align-items: center; gap: 9px; }
+.checkbox-label input { accent-color: var(--gold); }
+.form-actions { display: flex; gap: 10px; }
+.cancel-button { padding: 9px 13px; border: 1px solid var(--line); border-radius: 4px; background: transparent; color: var(--cream); font-size: .68rem; cursor: pointer; }
+.add-button:disabled { opacity: .6; cursor: wait; }
+.schedule-form { padding: 24px; border: 1px solid var(--line); border-radius: 7px; background: #171715; }
+.schedule-form .interval-field { max-width: 240px; }
+.hours-list { display: grid; }
+.hours-row { display: grid; grid-template-columns: minmax(130px, 1fr) minmax(150px, .7fr) minmax(150px, .7fr); align-items: center; gap: 15px; padding: 11px 0; border-top: 1px solid rgba(255,255,255,.06); }
+.hours-row .checkbox-label { display: flex; align-items: center; gap: 9px; font-size: .75rem; }
+.time-field { max-width: 170px; }
+.closed-label { color: #827b70; font-size: .7rem; }
+.blocked-editor { display: grid; gap: 14px; margin-top: 12px; padding-top: 18px; border-top: 1px solid var(--line); }
+.blocked-inputs { display: grid; grid-template-columns: minmax(130px, .65fr) minmax(180px, 1fr) auto; align-items: end; gap: 12px; }
+.blocked-list { display: grid; gap: 5px; margin: 0; padding: 0; list-style: none; }
+.blocked-list li { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 9px 0; border-top: 1px solid rgba(255,255,255,.05); color: var(--muted); font-size: .69rem; }
+.blocked-list strong { margin-right: 8px; color: var(--cream); }
+.save-schedule { justify-self: start; }
+.appointment-editor { margin-bottom: 18px; border: 1px solid rgba(216,177,63,.2); border-radius: 7px; }
 @media (max-width: 1000px) { .metrics { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 680px) {
   .admin-layout { grid-template-columns: 1fr; padding-top: 70px; }
@@ -59,4 +93,7 @@ td small { display: block; max-width: 280px; overflow: hidden; margin-top: 4px; 
   .admin-topbar h1 { font-size: 2.2rem; }
   .admin-user { display: none; }
   .quick-grid { grid-template-columns: 1fr; }
+  .form-grid, .blocked-inputs { grid-template-columns: 1fr; }
+  .hours-row { grid-template-columns: 1fr 1fr 1fr; gap: 7px; }
+  .time-field { max-width: none; }
 }

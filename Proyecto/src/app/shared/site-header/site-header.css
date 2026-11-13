@@ -25,6 +25,20 @@
 .main-nav a, .login-link { color: #d3cec4; font-size: .87rem; transition: color .2s ease; }
 .main-nav a:hover, .main-nav a.active, .login-link:hover { color: var(--gold); }
 .welcome { color: var(--muted); font-size: .85rem; }
+.logout-button {
+  padding: 9px 18px;
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  background: var(--panel);
+  color: var(--gold);
+  font-size: .85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease;
+}
+.logout-button:hover { background: var(--gold); color: var(--bg); }
+.logout-button:focus-visible { outline: 2px solid var(--cream); outline-offset: 3px; }
+.logout-error { position: absolute; top: 100%; right: 24px; padding: 8px 12px; background: #281714; color: #f0b3a9; font-size: .72rem; }
 .menu-toggle { display: none; }
 @media (max-width: 900px) {
   .site-header { gap: 12px; }

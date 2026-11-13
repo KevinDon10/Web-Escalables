@@ -1,6 +1,6 @@
 <article class="service-card">
   <div class="service-image">
-    <img [src]="'/img/' + service.imagen" [alt]="service.nombre" loading="lazy">
+    <img [src]="imageUrl(service.imagen)" [alt]="service.nombre" loading="lazy">
     <span class="category">{{ service.categoria }}</span>
   </div>
   <div class="service-copy">

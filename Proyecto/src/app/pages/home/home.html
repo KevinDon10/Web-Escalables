@@ -20,7 +20,7 @@
       <h2>Una barbería para quienes valoran <em>verse bien</em> y sentirse mejor.</h2>
     </div>
     <div class="stat"><strong>+500</strong><span>clientes satisfechos</span></div>
-    <div class="stat"><strong>06</strong><span>servicios premium</span></div>
+    <div class="stat"><strong>{{ data.services().length }}</strong><span>servicios premium</span></div>
     <div class="stat"><strong>10</strong><span>años de experiencia</span></div>
   </section>
 
@@ -29,11 +29,15 @@
       <div><span class="eyebrow">Hecho a tu medida</span><h2>Elige tu <em>ritual.</em></h2></div>
       <p>Cada servicio combina técnica, cuidado y atención al detalle. Encuentra el que va contigo.</p>
     </div>
+    @if (error()) { <p class="page-error" role="alert">{{ error() }}</p> }
     <div class="service-grid">
-      @for (service of data.services; track service.id) {
+      @for (service of data.services(); track service._id) {
         <app-service-card [service]="service" />
       }
     </div>
+    @if (!error() && data.services().length === 0) {
+      <p class="empty-services">Próximamente anunciaremos nuestros servicios.</p>
+    }
   </section>
 
   <section class="experience">

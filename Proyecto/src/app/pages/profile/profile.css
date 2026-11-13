@@ -10,10 +10,11 @@
 .profile-card label { display: grid; gap: 8px; color: #d6d0c4; font-size: .74rem; font-weight: 700; }
 .profile-card input { height: 45px; padding: 0 12px; color: var(--cream); background: #101010; border: 1px solid var(--line); border-radius: 4px; outline: none; }
 .profile-card input:focus { border-color: var(--gold); }
-.profile-card input:disabled { color: #8e887e; }
 .password-heading { padding-top: 14px; border-top: 1px solid var(--line); }
 .password-heading p { margin: 8px 0 0; font: 600 1.2rem 'Cormorant Garamond', serif; }
 .password-heading p span { color: var(--muted); font: .73rem 'Manrope', sans-serif; }
 .button { min-height: 46px; display: inline-flex; align-items: center; justify-content: center; gap: 18px; padding: 0 20px; border: 0; border-radius: 4px; background: var(--gold); color: #17130b; font-size: .78rem; font-weight: 800; cursor: pointer; }
 .notice { padding: 12px 14px; color: var(--gold); background: rgba(216,177,63,.08); border: 1px solid rgba(216,177,63,.2); border-radius: 5px; font-size: .78rem; }
+.form-error { padding: 12px 14px; color: #f0b3a9; background: #281714; border: 1px solid #a34a3c; border-radius: 5px; font-size: .78rem; }
+.button:disabled { opacity: .6; cursor: wait; }
 @media (max-width: 500px) { .form-grid { grid-template-columns: 1fr; } }

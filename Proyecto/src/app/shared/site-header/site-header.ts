@@ -12,10 +12,15 @@ export class SiteHeader {
   readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   menuOpen = false;
+  logoutError = '';
 
-  logout(): void {
-    this.auth.logout();
-    this.menuOpen = false;
-    void this.router.navigate(['/']);
+  async logout(): Promise<void> {
+    try {
+      await this.auth.logout();
+      this.menuOpen = false;
+      void this.router.navigate(['/']);
+    } catch {
+      this.logoutError = 'No se pudo cerrar la sesión. Inténtalo nuevamente.';
+    }
   }
 }

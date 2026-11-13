@@ -11,4 +11,8 @@ import { RouterLink } from '@angular/router';
 })
 export class ServiceCard {
   @Input({ required: true }) service!: BarberService;
+
+  imageUrl(path: string): string {
+    return path.startsWith('http') || path.startsWith('/') ? path : `/img/${path}`;
+  }
 }

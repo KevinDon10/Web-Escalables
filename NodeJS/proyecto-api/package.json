@@ -1,0 +1,39 @@
+{
+  "name": "proyecto-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "dev": "node --watch --env-file=.env --import=tsx src/server.ts",
+    "start": "node --env-file=.env --import=tsx src/server.ts",
+    "typecheck": "tsc --noEmit",
+    "seed": "node --env-file=.env --import=tsx src/scripts/seed.ts",
+    "test": "node --import=tsx --test src/app.test.ts src/services/schedule.service.test.ts"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "csrf-csrf": "^4.1.0",
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "luxon": "^3.7.2",
+    "mongoose": "^9.12.1",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/luxon": "^3.7.1",
+    "@types/node": "^24.10.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}

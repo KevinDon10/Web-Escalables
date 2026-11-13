@@ -8,64 +8,169 @@
       <a routerLink="/admin/servicios" routerLinkActive="selected"><span>✦</span> Servicios</a>
       <a routerLink="/admin/barberos" routerLinkActive="selected"><span>♙</span> Barberos</a>
       <a routerLink="/admin/clientes" routerLinkActive="selected"><span>♧</span> Clientes</a>
+      <a routerLink="/admin/horarios" routerLinkActive="selected"><span>◷</span> Horarios</a>
     </nav>
     <a routerLink="/" class="back-site">← Volver al sitio</a>
   </aside>
   <section class="admin-content">
-    <header class="admin-topbar"><div><span class="eyebrow">Panel de administración</span><h1>{{ title() }}</h1></div><div class="admin-user"><span class="avatar">K</span><span>Kevin Ramírez<small>Administrador</small></span></div></header>
+    <header class="admin-topbar">
+      <div><span class="eyebrow">Panel de administración</span><h1>{{ title() }}</h1></div>
+      <div class="admin-user"><span class="avatar">{{ auth.currentUser()?.nombre?.slice(0, 1) }}</span><span>{{ auth.currentUser()?.nombre }}<small>Administrador</small></span></div>
+    </header>
     @if (notice()) { <p class="admin-notice" role="status">{{ notice() }}</p> }
-
-    @if (section() === 'dashboard') {
-      <div class="metrics">
-        <article><span>Citas de hoy</span><strong>08</strong><small class="positive">↑ 12% respecto a ayer</small><i>▣</i></article>
-        <article><span>Clientes registrados</span><strong>{{ data.clients.length }}</strong><small>Clientes registrados</small><i>♧</i></article>
-        <article><span>Servicios activos</span><strong>{{ data.services.length }}</strong><small>Catálogo actual</small><i>✦</i></article>
-        <article><span>Barberos disponibles</span><strong>{{ data.barbers.length }}</strong><small>Equipo Kev's</small><i>♙</i></article>
-      </div>
-      <section class="table-panel">
-        <div class="table-heading"><div><h2>Citas recientes</h2><p>Actividad de la barbería</p></div><a routerLink="/admin/citas">Ver todas →</a></div>
-        <div class="table-scroll"><table><thead><tr><th>CLIENTE</th><th>SERVICIO</th><th>FECHA</th><th>BARBERO</th><th>ESTADO</th></tr></thead>
-          <tbody>
-            @for (item of data.appointments().slice(0, 4); track item.id) {
-              <tr><td>Carlos Mendoza</td><td>{{ item.servicio }}</td><td>{{ item.fecha }} · {{ item.hora }}</td><td>{{ item.barbero }}</td><td><span class="status" [class.complete]="item.estado === 'Completada'">{{ item.estado }}</span></td></tr>
-            }
-          </tbody>
-        </table></div>
-      </section>
-      <section class="quick-grid">
-        <article class="quick-card"><span class="eyebrow">Catálogo</span><h2>Cuida cada detalle.</h2><p>Actualiza los servicios y precios disponibles para tus clientes.</p><a routerLink="/admin/servicios">Gestionar servicios →</a></article>
-        <article class="quick-card"><span class="eyebrow">Tu equipo</span><h2>Un equipo, un estilo.</h2><p>Consulta a tus barberos y su disponibilidad.</p><a routerLink="/admin/barberos">Ver equipo →</a></article>
-      </section>
+    @if (error()) { <p class="admin-error" role="alert">{{ error() }}</p> }
+    @if (loading()) {
+      <p class="admin-loading">Cargando información…</p>
     } @else {
-      <section class="table-panel">
-        <div class="table-heading"><div><h2>{{ title() }}</h2><p>Vista previa de los datos del negocio</p></div>
-          @if (section() === 'servicios' || section() === 'barberos') { <button type="button" class="add-button" (click)="announce('Nuevo registro')">＋ Agregar</button> }
-        </div>
-        <div class="table-scroll">
-          @switch (section()) {
-            @case ('servicios') {
-              <table><thead><tr><th>SERVICIO</th><th>CATEGORÍA</th><th>DURACIÓN</th><th>PRECIO</th><th>ESTADO</th><th></th></tr></thead><tbody>
-                @for (item of data.services; track item.id) { <tr><td><strong>{{ item.nombre }}</strong><small>{{ item.descripcion }}</small></td><td>{{ item.categoria }}</td><td>{{ item.duracion }} min</td><td>${{ item.precio }} MXN</td><td><span class="status">Activo</span></td><td><button class="row-action" (click)="announce('Editar servicio')">Editar</button></td></tr> }
-              </tbody></table>
+      @switch (section()) {
+        @case ('dashboard') {
+          <div class="metrics">
+            <article><span>Citas de hoy</span><strong>{{ todayAppointments().length }}</strong><small>Según el horario de la barbería</small><i>▣</i></article>
+            <article><span>Clientes registrados</span><strong>{{ data.clients().length }}</strong><small>En el sistema</small><i>♧</i></article>
+            <article><span>Servicios activos</span><strong>{{ data.services().filter(isActiveService).length }}</strong><small>Catálogo actual</small><i>✦</i></article>
+            <article><span>Barberos disponibles</span><strong>{{ data.barbers().filter(isAvailableBarber).length }}</strong><small>Equipo Kev's</small><i>♙</i></article>
+          </div>
+          <section class="table-panel">
+            <div class="table-heading"><div><h2>Citas recientes</h2><p>Actividad de la barbería</p></div><a routerLink="/admin/citas">Ver todas →</a></div>
+            <div class="table-scroll"><table><thead><tr><th>CLIENTE</th><th>SERVICIO</th><th>FECHA</th><th>BARBERO</th><th>ESTADO</th></tr></thead>
+              <tbody>
+                @for (item of data.appointments().slice(0, 5); track item._id) {
+                  <tr><td>{{ item.clienteId?.nombre }} {{ item.clienteId?.apellidos }}</td><td>{{ item.servicioId.nombre }}</td><td>{{ item.fecha }} · {{ item.hora }}</td><td>{{ item.barberoId.nombre }}</td><td><span class="status">{{ item.estado }}</span></td></tr>
+                } @empty { <tr><td colspan="5" class="empty-row">Aún no hay citas registradas.</td></tr> }
+              </tbody>
+            </table></div>
+          </section>
+          <section class="quick-grid">
+            <article class="quick-card"><span class="eyebrow">Catálogo</span><h2>Cuida cada detalle.</h2><p>Actualiza los servicios y precios disponibles para tus clientes.</p><a routerLink="/admin/servicios">Gestionar servicios →</a></article>
+            <article class="quick-card"><span class="eyebrow">Disponibilidad</span><h2>Define tus horarios.</h2><p>Configura días de atención y fechas bloqueadas.</p><a routerLink="/admin/horarios">Gestionar horarios →</a></article>
+          </section>
+        }
+        @case ('servicios') {
+          <section class="table-panel">
+            <div class="table-heading"><div><h2>Catálogo de servicios</h2><p>Administra precios, duración e imágenes</p></div><button type="button" class="add-button" (click)="newService()">＋ Agregar servicio</button></div>
+            @if (showServiceForm) {
+              <form class="admin-form" (ngSubmit)="saveService()">
+                <h3>{{ editingServiceId ? 'Editar servicio' : 'Nuevo servicio' }}</h3>
+                <div class="form-grid">
+                  <label>Nombre<input name="serviceName" [(ngModel)]="serviceForm.nombre" required maxlength="100"></label>
+                  <label>Categoría<input name="serviceCategory" [(ngModel)]="serviceForm.categoria" required maxlength="60"></label>
+                  <label>Precio (MXN)<input name="servicePrice" type="number" min="0" step="1" [(ngModel)]="serviceForm.precio" required></label>
+                  <label>Duración (minutos)<input name="serviceDuration" type="number" min="15" max="240" step="15" [(ngModel)]="serviceForm.duracion" required></label>
+                  <label>Imagen (URL o ruta)<input name="serviceImage" [(ngModel)]="serviceForm.imagen" required maxlength="500"></label>
+                  <label class="checkbox-label"><input name="serviceActive" type="checkbox" [(ngModel)]="serviceForm.activo"> Activo</label>
+                </div>
+                <label>Descripción<textarea name="serviceDescription" [(ngModel)]="serviceForm.descripcion" rows="3" maxlength="500" required></textarea></label>
+                <div class="form-actions"><button class="add-button" type="submit" [disabled]="saving()">{{ saving() ? 'Guardando…' : 'Guardar' }}</button><button class="cancel-button" type="button" (click)="showServiceForm = false">Cancelar</button></div>
+              </form>
             }
-            @case ('barberos') {
-              <table><thead><tr><th>BARBERO</th><th>ESPECIALIDAD</th><th>DISPONIBILIDAD</th><th></th></tr></thead><tbody>
-                @for (item of data.barbers; track item.id) { <tr><td><div class="person-cell"><img [src]="item.imagen" [alt]="item.nombre"><strong>{{ item.nombre }}</strong></div></td><td>{{ item.especialidad }}</td><td><span class="status">{{ item.disponible ? 'Disponible' : 'No disponible' }}</span></td><td><button class="row-action" (click)="announce('Editar barbero')">Editar</button></td></tr> }
-              </tbody></table>
+            <div class="table-scroll"><table><thead><tr><th>SERVICIO</th><th>CATEGORÍA</th><th>DURACIÓN</th><th>PRECIO</th><th>ESTADO</th><th>ACCIONES</th></tr></thead><tbody>
+              @for (item of data.services(); track item._id) {
+                <tr><td><strong>{{ item.nombre }}</strong><small>{{ item.descripcion }}</small></td><td>{{ item.categoria }}</td><td>{{ item.duracion }} min</td><td>{{ item.precio | currency:'MXN':'symbol-narrow':'1.0-0' }}</td><td><span class="status" [class.inactive]="!item.activo">{{ item.activo ? 'Activo' : 'Inactivo' }}</span></td><td class="row-actions"><button class="row-action" type="button" (click)="editService(item)">Editar</button>@if (item.activo) { <button class="row-action danger" type="button" (click)="removeService(item._id)">Desactivar</button> }</td></tr>
+              } @empty { <tr><td colspan="6" class="empty-row">No hay servicios registrados.</td></tr> }
+            </tbody></table></div>
+          </section>
+        }
+        @case ('barberos') {
+          <section class="table-panel">
+            <div class="table-heading"><div><h2>Equipo de barberos</h2><p>Administra el equipo y su disponibilidad</p></div><button type="button" class="add-button" (click)="newBarber()">＋ Agregar barbero</button></div>
+            @if (showBarberForm) {
+              <form class="admin-form" (ngSubmit)="saveBarber()">
+                <h3>{{ editingBarberId ? 'Editar barbero' : 'Nuevo barbero' }}</h3>
+                <div class="form-grid">
+                  <label>Nombre<input name="barberName" [(ngModel)]="barberForm.nombre" required maxlength="100"></label>
+                  <label>Especialidad<input name="barberSpecialty" [(ngModel)]="barberForm.especialidad" required maxlength="120"></label>
+                  <label>Imagen (URL o ruta)<input name="barberImage" [(ngModel)]="barberForm.imagen" required maxlength="500"></label>
+                  <label class="checkbox-label"><input name="barberAvailable" type="checkbox" [(ngModel)]="barberForm.disponible"> Disponible</label>
+                </div>
+                <div class="form-actions"><button class="add-button" type="submit" [disabled]="saving()">{{ saving() ? 'Guardando…' : 'Guardar' }}</button><button class="cancel-button" type="button" (click)="showBarberForm = false">Cancelar</button></div>
+              </form>
             }
-            @case ('citas') {
-              <table><thead><tr><th>SERVICIO</th><th>FECHA</th><th>HORA</th><th>BARBERO</th><th>PRECIO</th><th>ESTADO</th></tr></thead><tbody>
-                @for (item of data.appointments(); track item.id) { <tr><td>{{ item.servicio }}</td><td>{{ item.fecha }}</td><td>{{ item.hora }}</td><td>{{ item.barbero }}</td><td>${{ item.precio }} MXN</td><td><span class="status">{{ item.estado }}</span></td></tr> }
-              </tbody></table>
-            }
-            @case ('clientes') {
-              <table><thead><tr><th>CLIENTE</th><th>CORREO</th><th>TELÉFONO</th><th>ESTADO</th></tr></thead><tbody>
-                @for (item of data.clients; track item.id) { <tr><td><strong>{{ item.nombre }} {{ item.apellidos }}</strong></td><td>{{ item.correo }}</td><td>{{ item.telefono }}</td><td><span class="status">Activo</span></td></tr> }
-              </tbody></table>
-            }
+            <div class="table-scroll"><table><thead><tr><th>BARBERO</th><th>ESPECIALIDAD</th><th>DISPONIBILIDAD</th><th>ACCIONES</th></tr></thead><tbody>
+              @for (item of data.barbers(); track item._id) {
+                <tr><td><div class="person-cell"><img [src]="item.imagen" [alt]="item.nombre"><strong>{{ item.nombre }}</strong></div></td><td>{{ item.especialidad }}</td><td><span class="status" [class.inactive]="!item.disponible">{{ item.disponible ? 'Disponible' : 'No disponible' }}</span></td><td class="row-actions"><button class="row-action" type="button" (click)="editBarber(item)">Editar</button>@if (item.disponible) { <button class="row-action danger" type="button" (click)="removeBarber(item._id)">Desactivar</button> }</td></tr>
+              } @empty { <tr><td colspan="4" class="empty-row">No hay barberos registrados.</td></tr> }
+            </tbody></table></div>
+          </section>
+        }
+        @case ('citas') {
+          @if (editingAppointment) {
+            <form class="admin-form appointment-editor" (ngSubmit)="saveAppointment()">
+              <h3>Modificar cita de {{ editingAppointment.clienteId?.nombre }} {{ editingAppointment.clienteId?.apellidos }}</h3>
+              <div class="form-grid">
+                <label>Servicio<select name="editAppointmentService" [(ngModel)]="appointmentForm.servicioId" (ngModelChange)="refreshAppointmentSlots()">@for (service of data.services(); track service._id) { <option [value]="service._id">{{ service.nombre }}</option> }</select></label>
+                <label>Barbero<select name="editAppointmentBarber" [(ngModel)]="appointmentForm.barberoId" (ngModelChange)="refreshAppointmentSlots()">@for (barber of data.barbers(); track barber._id) { <option [value]="barber._id">{{ barber.nombre }}</option> }</select></label>
+                <label>Fecha<input name="editAppointmentDate" type="date" [(ngModel)]="appointmentForm.fecha" (ngModelChange)="refreshAppointmentSlots()" required></label>
+                <label>Horario<select name="editAppointmentTime" [(ngModel)]="appointmentForm.hora" required>@for (slot of appointmentSlots; track slot) { <option [value]="slot">{{ slot }}</option> }</select></label>
+              </div>
+              <label>Notas<textarea name="editAppointmentNotes" [(ngModel)]="appointmentForm.notas" maxlength="500" rows="2"></textarea></label>
+              <div class="form-actions"><button class="add-button" type="submit" [disabled]="saving() || appointmentSlots.length === 0">Guardar cambios</button><button class="cancel-button" type="button" (click)="editingAppointment = null">Cancelar</button></div>
+            </form>
           }
-        </div>
-      </section>
+          <section class="table-panel">
+            <div class="table-heading"><div><h2>Todas las citas</h2><p>Consulta, confirma, modifica o cancela reservas</p></div></div>
+            <div class="table-scroll"><table><thead><tr><th>CLIENTE</th><th>SERVICIO</th><th>FECHA</th><th>BARBERO</th><th>PRECIO</th><th>ESTADO</th><th>ACCIONES</th></tr></thead><tbody>
+              @for (item of data.appointments(); track item._id) {
+                <tr>
+                  <td>{{ item.clienteId?.nombre }} {{ item.clienteId?.apellidos }}<small>{{ item.clienteId?.correo }}</small></td><td>{{ item.servicioId.nombre }}</td><td>{{ item.fecha }} · {{ item.hora }}</td><td>{{ item.barberoId.nombre }}</td><td>{{ item.precio | currency:'MXN':'symbol-narrow':'1.0-0' }}</td>
+                  <td><select class="status-select" [ngModel]="item.estado" [name]="'status-' + item._id" (ngModelChange)="saveAppointmentStatus(item._id, $event)"><option value="pendiente">Pendiente</option><option value="confirmada">Confirmada</option><option value="completada">Completada</option><option value="cancelada">Cancelada</option></select></td>
+                  <td class="row-actions">@if (item.estado === 'pendiente' || item.estado === 'confirmada') { <button class="row-action" type="button" (click)="editAppointment(item)">Modificar</button><button class="row-action danger" type="button" (click)="cancelAppointment(item._id)">Cancelar</button> }</td>
+                </tr>
+              } @empty { <tr><td colspan="7" class="empty-row">No hay citas registradas.</td></tr> }
+            </tbody></table></div>
+          </section>
+        }
+        @case ('clientes') {
+          <section class="table-panel">
+            <div class="table-heading"><div><h2>Clientes registrados</h2><p>Información de cuentas de cliente</p></div><button class="add-button" type="button" (click)="newClient()">＋ Agregar cliente</button></div>
+            @if (showClientForm) {
+              <form class="admin-form" #clientEditor="ngForm" (ngSubmit)="saveClient()">
+                <h3>{{ editingClientId ? 'Editar cliente' : 'Nuevo cliente' }}</h3>
+                <div class="form-grid">
+                  <label>Nombre<input name="clientName" [(ngModel)]="clientForm.nombre" required maxlength="80"></label>
+                  <label>Apellidos<input name="clientLastName" [(ngModel)]="clientForm.apellidos" required maxlength="100"></label>
+                  <label>Correo<input name="clientEmail" type="email" email [(ngModel)]="clientForm.correo" required></label>
+                  <label>Teléfono<input name="clientPhone" [(ngModel)]="clientForm.telefono" required minlength="7" maxlength="30"></label>
+                  <label>{{ editingClientId ? 'Nueva contraseña (opcional)' : 'Contraseña' }}<input name="clientPassword" type="password" autocomplete="new-password" [(ngModel)]="clientForm.password" [required]="!editingClientId" minlength="8" maxlength="128"></label>
+                </div>
+                <div class="form-actions"><button class="add-button" type="submit" [disabled]="saving() || clientEditor.invalid">Guardar</button><button class="cancel-button" type="button" (click)="showClientForm = false">Cancelar</button></div>
+              </form>
+            }
+            <div class="table-scroll"><table><thead><tr><th>CLIENTE</th><th>CORREO</th><th>TELÉFONO</th><th>ROL</th><th>ACCIONES</th></tr></thead><tbody>
+              @for (item of data.clients(); track item.id) { <tr><td><strong>{{ item.nombre }} {{ item.apellidos }}</strong></td><td>{{ item.correo }}</td><td>{{ item.telefono }}</td><td><span class="status">Cliente</span></td><td class="row-actions"><button class="row-action" (click)="editClient(item)">Editar</button><button class="row-action danger" [disabled]="saving()" (click)="removeClient(item.id)">Dar de baja</button></td></tr> }
+              @empty { <tr><td colspan="4" class="empty-row">No hay clientes registrados.</td></tr> }
+            </tbody></table></div>
+          </section>
+        }
+        @case ('horarios') {
+          <form class="admin-form schedule-form" (ngSubmit)="saveSchedule()">
+            <h2>Horario semanal</h2>
+            <p>Define los días y las horas de atención. Los intervalos se usan para ofrecer turnos disponibles.</p>
+            <label class="interval-field">Intervalo entre citas
+              <select name="scheduleInterval" [(ngModel)]="scheduleForm.intervaloMinutos"><option [ngValue]="30">30 minutos</option><option [ngValue]="60">60 minutos</option><option [ngValue]="90">90 minutos</option></select>
+            </label>
+            <div class="hours-list">
+              @for (hour of scheduleForm.horarioSemanal; track hour.dia; let i = $index) {
+                <div class="hours-row">
+                  <label class="checkbox-label"><input [name]="'day-open-' + hour.dia" type="checkbox" [(ngModel)]="hour.abierto">{{ dayNames[i] }}</label>
+                  @if (hour.abierto) {
+                    <label class="time-field">Abre<input [name]="'opening-' + hour.dia" type="time" [(ngModel)]="hour.apertura" required></label>
+                    <label class="time-field">Cierra<input [name]="'closing-' + hour.dia" type="time" [(ngModel)]="hour.cierre" required></label>
+                  } @else { <span class="closed-label">Cerrado</span> }
+                </div>
+              }
+            </div>
+            <div class="blocked-editor">
+              <h3>Fechas bloqueadas</h3><p>Bloquea días festivos, vacaciones u otras fechas sin atención.</p>
+              <div class="blocked-inputs"><label>Fecha<input name="blockedDate" type="date" [(ngModel)]="blockedDate"></label><label>Motivo<input name="blockedReason" [(ngModel)]="blockedReason" maxlength="160" placeholder="Opcional"></label><button class="add-button" type="button" (click)="addBlockedDate()">{{ editingBlockId ? 'Guardar cambio' : 'Agregar fecha' }}</button><button class="cancel-button" type="button" (click)="editingBlockId = ''; blockedDate = ''; blockedReason = ''">Limpiar</button></div>
+              <ul class="blocked-list">
+                @for (item of data.blockedDates(); track item._id) { <li><span><strong>{{ item.fecha }}</strong> {{ item.motivo }}</span><button type="button" class="row-action" (click)="editBlockedDate(item)">Editar</button><button type="button" class="row-action danger" (click)="removeBlockedDate(item._id)" [disabled]="saving()">Quitar</button></li> }
+                @empty { <li class="empty-row">No hay fechas bloqueadas.</li> }
+              </ul>
+            </div>
+            <button class="add-button save-schedule" type="submit" [disabled]="saving()">{{ saving() ? 'Guardando…' : 'Guardar horarios' }}</button>
+          </form>
+        }
+      }
     }
   </section>
 </main>

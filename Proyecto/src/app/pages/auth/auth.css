@@ -14,8 +14,9 @@
 .auth-content label { display: grid; gap: 8px; color: #d8d2c8; font-size: .75rem; font-weight: 700; }
 .auth-content input { width: 100%; height: 48px; padding: 0 13px; color: var(--cream); background: #141414; border: 1px solid var(--line); border-radius: 4px; outline: none; }
 .auth-content input:focus { border-color: var(--gold); }
-.forgot-link { justify-self: end; margin-top: -8px; color: var(--gold); font-size: .73rem; }
 .submit-button { width: 100%; border: 0; cursor: pointer; }
+.submit-button:disabled { opacity: .6; cursor: wait; }
+.form-error { margin: 0; padding: 11px 13px; border: 1px solid #a34a3c; border-radius: 4px; background: #281714; color: #f0b3a9; font-size: .76rem; }
 .switch-auth { margin: 24px 0 0; color: var(--muted); text-align: center; font-size: .78rem; }
 .switch-auth a { margin-left: 4px; color: var(--gold); font-weight: 800; }
 .demo-note { margin: 28px 0 0; color: #777166; text-align: center; font-size: .68rem; }

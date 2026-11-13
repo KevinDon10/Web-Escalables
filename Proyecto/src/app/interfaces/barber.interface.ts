@@ -1,5 +1,5 @@
 export interface Barber {
-  id: number;
+  _id: string;
   nombre: string;
   especialidad: string;
   disponible: boolean;

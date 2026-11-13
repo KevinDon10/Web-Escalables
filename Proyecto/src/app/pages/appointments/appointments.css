@@ -22,9 +22,16 @@
 .appointment-price > strong { color: var(--gold); font-size: .9rem; }
 .appointment-price button { padding: 0; border: 0; background: transparent; color: #a99e8e; font-size: .7rem; cursor: pointer; }
 .appointment-price button:hover { color: #dc8d77; }
+.appointment-price a { color: var(--gold); font-size: .7rem; }
 .past { opacity: .76; }
 .status { color: var(--muted); font-size: .72rem; }
 .notice { padding: 12px 15px; color: var(--gold); background: rgba(216,177,63,.08); border: 1px solid rgba(216,177,63,.2); border-radius: 5px; font-size: .8rem; }
+.form-error { padding: 12px 15px; color: #f0b3a9; background: #281714; border: 1px solid #a34a3c; border-radius: 5px; font-size: .8rem; }
+.notification { display: flex; align-items: center; gap: 12px; margin: 10px 0; padding: 12px 15px; border: 1px solid rgba(216,177,63,.23); border-radius: 5px; background: rgba(216,177,63,.07); }
+.notification > span { color: var(--gold); }
+.notification p { flex: 1; margin: 0; color: var(--cream); font-size: .76rem; line-height: 1.6; }
+.notification button { border: 0; background: transparent; color: var(--gold); font-size: .68rem; cursor: pointer; }
+.loading-state { padding: 25px 0; color: var(--muted); font-size: .82rem; }
 .empty-state { padding: 70px 20px; text-align: center; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
 .empty-state > span { color: var(--gold); font-size: 1.5rem; }
 .empty-state h2 { margin: 10px 0; font: 600 1.9rem 'Cormorant Garamond', serif; }

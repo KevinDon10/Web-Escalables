@@ -7,10 +7,14 @@
   <nav class="main-nav" [class.open]="menuOpen" aria-label="Navegación principal">
     <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="menuOpen = false">Inicio</a>
     <a routerLink="/" fragment="servicios" (click)="menuOpen = false">Servicios</a>
-    <a routerLink="/agendar" routerLinkActive="active" (click)="menuOpen = false">Agendar cita</a>
+    @if (auth.currentUser()?.role !== 'admin') {
+      <a routerLink="/agendar" routerLinkActive="active" (click)="menuOpen = false">Agendar cita</a>
+    }
     @if (auth.currentUser()) {
-      <a routerLink="/mis-citas" routerLinkActive="active" (click)="menuOpen = false">Mis citas</a>
       <a routerLink="/perfil" routerLinkActive="active" (click)="menuOpen = false">Mi perfil</a>
+      @if (auth.currentUser()?.role === 'cliente') {
+        <a routerLink="/mis-citas" routerLinkActive="active" (click)="menuOpen = false">Mis citas</a>
+      }
       @if (auth.currentUser()?.role === 'admin') {
         <a routerLink="/admin" routerLinkActive="active" (click)="menuOpen = false">Administración</a>
       }
@@ -19,10 +23,11 @@
   <div class="header-actions">
     @if (auth.currentUser(); as user) {
       <span class="welcome">Hola, {{ user.nombre }}</span>
-      <button class="button button-gold button-small" type="button" (click)="logout()">Salir</button>
+      <button class="logout-button" type="button" (click)="logout()">Salir</button>
     } @else {
       <a class="login-link" routerLink="/login">Iniciar sesión</a>
       <a class="button button-gold button-small" routerLink="/registro">Crear cuenta</a>
     }
   </div>
+  @if (logoutError) { <span class="logout-error" role="alert">{{ logoutError }}</span> }
 </header>
