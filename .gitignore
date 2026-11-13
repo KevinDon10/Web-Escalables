@@ -8,7 +8,6 @@
 
 # Variables de entorno
 **/.env
-**/.env.*
 
 # Archivos temporales
 *.log
