@@ -1,22 +1,31 @@
 import { Component, output } from '@angular/core';
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-controls',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './controls.html',
   styleUrl: './controls.css',
 })
 export class Controls {
-  orderByIdClick = output<void>();
-  orderByNameClick = output<void>();
+
+  orderById= output<void>();
+  orderByName = output<void>();
   reverse = output<void>();
+  search = output<string>();
+
+  searchControl = new FormControl('');
+  
+  onSearch(): void {
+    this.search.emit(this.searchControl.value ?? '');
+  }
 
   onOrderByIdClick(): void {
-    this.orderByIdClick.emit();
+    this.orderById.emit();
   }
 
   onOrderByNameClick(): void {
-    this.orderByNameClick.emit();
+    this.orderByName.emit();
   }
 
   onReverseClick(): void {

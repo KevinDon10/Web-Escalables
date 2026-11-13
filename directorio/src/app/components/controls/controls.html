@@ -1,4 +1,17 @@
-<button (click)="onOrderByNameClick()">Ordenar por nombre</button>
-<button (click)="onOrderByIdClick()">Ordenar por ID</button>
-<button (click)="onReverseClick()">Invertir</button>
+<div class="controls-panel">
+  <form class="search-form" (ngSubmit)="onSearch()">
+    <input
+      type="search"
+      [formControl]="searchControl"
+      placeholder="Buscar usuario..."
+      aria-label="Buscar usuario">
+    <button class="search-button" type="submit">Buscar</button>
+  </form>
+
+  <div class="sort-actions" aria-label="Opciones de orden">
+    <button type="button" (click)="onOrderByNameClick()">Ordenar por nombre</button>
+    <button type="button" (click)="onOrderByIdClick()">Ordenar por ID</button>
+    <button type="button" (click)="onReverseClick()">Invertir</button>
+  </div>
+</div>
 

@@ -1,0 +1,32 @@
+.container {
+  width: 100%;
+  margin: 0;
+  padding: 4px 8px 48px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 270px));
+  justify-content: center;
+  gap: 32px;
+}
+
+@media (max-width: 900px) {
+  .card-grid {
+    grid-template-columns: repeat(2, minmax(0, 270px));
+    gap: 24px;
+  }
+}
+
+@media (max-width: 620px) {
+  .container {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .card-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+}

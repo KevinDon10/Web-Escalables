@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { User } from "../../interfaces/user.interface";
+import type { User } from "../../interfaces/user.interface";
 
 @Component({
   selector: 'app-user-card',
@@ -16,10 +16,10 @@ export class UserCard {
   //   image: "https://img.magnific.com/foto-gratis/joven-hombre-barbudo-camisa-rayas_273609-5677.jpg?semt=ais_hybrid&w=740&q=80%22"
   // })
 
-  user = input.required<User>();
-  deleteUser = output<number>();
+  public user = input.required<User>();
+  public deleteClick = output<string>();
 
-  removeUser(): void {
-    this.deleteUser.emit(this.user().id);
+  delete(): void {
+    this.deleteClick.emit(this.user().id);
   }
 }

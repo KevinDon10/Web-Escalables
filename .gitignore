@@ -1,0 +1,14 @@
+# Dependencias
+**/node_modules/
+
+# Angular
+**/dist/
+**/.angular/
+**/coverage/
+
+# Variables de entorno
+**/.env
+**/.env.*
+
+# Archivos temporales
+*.log

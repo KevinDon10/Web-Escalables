@@ -1,36 +1,87 @@
 :host {
+    display: block;
+    width: 100%;
+    margin: 0 0 8px;
+}
+
+.controls-panel {
     display: flex;
-    justify-content: center;
-    margin: 20px auto 10px;
-    width: fit-content;
-    background: rgba(255, 255, 255, 0.5);
-    border: 1px solid rgba(118, 117, 140, 0.35);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.02);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.search-form {
+    display: flex;
+    width: min(100%, 220px);
+    gap: 6px;
+}
+
+input {
+    min-width: 0;
+    flex: 1;
+    height: 28px;
+    padding: 0 11px;
+    border: 1px solid #d9deea;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #252b3a;
+    font: inherit;
+}
+
+input:focus {
+    border-color: #6861e8;
+    outline: 3px solid rgba(104, 97, 232, 0.14);
 }
 
 button {
     appearance: none;
-    border: none;
-    background: transparent;
-    color: #4f5468;
-    font-size: 0.9rem;
-    font-weight: 500;
-    padding: 10px 14px;
+    border: 1px solid #d9deea;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #424a5d;
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 550;
+    padding: 3px 8px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 
-button + button {
-    border-left: 1px solid rgba(118, 117, 140, 0.35);
+.sort-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.search-button {
+    border-color: #625be7;
+    background: #625be7;
+    color: #ffffff;
 }
 
 button:hover {
-    background: rgba(97, 99, 221, 0.08);
-    color: #2d2e4b;
+    border-color: #625be7;
+    color: #514bd0;
+    background: #f5f4ff;
+}
+
+.search-button:hover {
+    background: #514bd0;
+    color: #ffffff;
+}
+
+button:focus-visible {
+    outline: 3px solid rgba(98, 91, 231, 0.2);
+    outline-offset: 2px;
 }
 
 button:active {
-    background: rgba(97, 99, 221, 0.14);
+    transform: translateY(1px);
+}
+
+@media (max-width: 420px) {
+    .sort-actions button {
+        flex: 1 1 auto;
+    }
 }
