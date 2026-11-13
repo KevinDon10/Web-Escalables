@@ -1,0 +1,27 @@
+﻿:root {
+  --ink: #e7edf3;
+  --muted: #9aaabc;
+  --accent: #6fa9dc;
+  --line: #2b3949;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: var(--ink);
+  background: #101720;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  color-scheme: dark;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  min-width: 320px;
+  background: radial-gradient(ellipse at 90% 0, #20314570, transparent 55%), #101720;
+  min-height: 100vh;
+}
+::selection {
+  background: #345a7e;
+  color: #fff;
+}

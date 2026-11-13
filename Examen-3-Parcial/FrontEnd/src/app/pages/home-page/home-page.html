@@ -1,0 +1,111 @@
+﻿<div class="workspace">
+  <main>
+    <header class="page-header">
+      <div>
+        <span class="eyebrow">UN POCO DE ORDEN, MUCHA INSPIRACIÓN</span>
+        <h1>Toda idea que tengas.<br /><span>Puedes guardarla aquí.</span></h1>
+      </div>
+    </header>
+
+    <div class="content-layout">
+      <aside>
+        <form [formGroup]="notaForm" (ngSubmit)="guardar()">
+          <div class="form-heading">
+            <span class="compose-icon" aria-hidden="true">＋</span
+            ><span class="eyebrow">CAPTURA EL MOMENTO</span>
+          </div>
+          <h2>Nueva nota</h2>
+          <p class="form-description">Una idea, un pendiente o un recordatorio.</p>
+          <div class="field">
+            <label for="titulo">Título <span aria-hidden="true">*</span></label>
+            <input
+              id="titulo"
+              type="text"
+              formControlName="titulo"
+              placeholder="Dale un nombre a tu idea"
+              [attr.aria-invalid]="
+                notaForm.controls.titulo.invalid && notaForm.controls.titulo.touched
+              "
+              aria-describedby="titulo-error"
+            />
+            @if (notaForm.controls.titulo.invalid && notaForm.controls.titulo.touched) {
+              <span id="titulo-error" class="error">Escribe un título.</span>
+            }
+          </div>
+          <div class="field">
+            <label for="contenido">Contenido <span aria-hidden="true">*</span></label>
+            <input
+              id="contenido"
+              type="text"
+              formControlName="contenido"
+              placeholder="¿Qué tienes en mente?"
+              [attr.aria-invalid]="
+                notaForm.controls.contenido.invalid && notaForm.controls.contenido.touched
+              "
+              aria-describedby="contenido-error"
+            />
+            @if (notaForm.controls.contenido.invalid && notaForm.controls.contenido.touched) {
+              <span id="contenido-error" class="error">Escribe el contenido.</span>
+            }
+          </div>
+          @if (errorGuardar()) {
+            <p class="error" role="alert">{{ errorGuardar() }}</p>
+          }
+          <button
+            class="save-button"
+            type="submit"
+            [disabled]="notaForm.invalid || guardando() || cargando() || !!errorCarga()"
+          >
+            <span aria-hidden="true">＋</span> {{ guardando() ? 'Guardando...' : 'Guardar nota' }}
+            <span class="button-arrow" aria-hidden="true">↗</span>
+          </button>
+        </form>
+      </aside>
+
+      <section aria-labelledby="notas-titulo" aria-live="polite">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">TU COLECCIÓN PERSONAL</span>
+            <h2 id="notas-titulo">
+              Mis notas <span class="count">{{ notas().length }}</span>
+            </h2>
+          </div>
+          <span class="view-label"><span aria-hidden="true">▦</span> Tablero</span>
+        </div>
+        @if (cargando()) {
+          <div class="status-panel">
+            <span class="status-icon" aria-hidden="true">⋯</span>
+            <h3>Preparando tu espacio</h3>
+            <p>Cargando tus notas...</p>
+          </div>
+        } @else if (errorCarga()) {
+          <div class="status-panel">
+            <span class="status-icon" aria-hidden="true">!</span>
+            <h3>No pudimos cargar tus notas</h3>
+            <p class="error" role="alert">{{ errorCarga() }}</p>
+            <button class="retry-button" type="button" (click)="reintentar()">
+              Volver a intentar
+            </button>
+          </div>
+        } @else {
+          <div class="notas">
+            @for (nota of notas(); track nota._id) {
+              <app-nota-card [nota]="nota" />
+            } @empty {
+              <div class="status-panel empty-state">
+                <span class="empty-illustration" aria-hidden="true">✎</span
+                ><span class="eyebrow">UNA PÁGINA EN BLANCO</span>
+                <h3>Todo empieza con una idea.</h3>
+                <p>
+                  Escribe tu primera nota y empieza a hacer<br class="desktop-break" />
+                  espacio para lo que importa.
+                </p>
+                <span class="empty-hint" aria-hidden="true">← Tu próxima idea empieza aquí</span>
+              </div>
+            }
+          </div>
+        }
+      </section>
+    </div>
+  </main>
+</div>
